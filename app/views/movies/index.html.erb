@@ -1,0 +1,65 @@
+<p id="notice"><%= notice %></p>
+<% 
+  receita = @receita
+  despesa = @despesa
+  saldo = 0
+
+  saldo = @movies.inject(0) {|sum, hash| sum + hash[:valor]}
+%>
+<h1>Finanças</h1>
+<div class="container">
+  <div class="row" id="valores">
+    <div class="col-sm bg-success" id="entradas">
+      <div class="valoresInfo">
+        <h3>Receitas</h3>
+      </div>
+      <h5>R$ <%= moneyBr(receita) %></h5>
+    </div>
+    <div class="col-sm bg-danger" id="saidas">
+      <div class="valoresInfo">
+        <h3>Despesas</h3>
+      </div>
+      <h5>R$ <%= moneyBr(despesa) %></h5>
+    </div>
+    <div class="col-sm bg-primary" id="saldo">
+      <div class="valoresInfo">
+        <h3>Saldo</h3>
+      </div>
+      <h5>R$ <%= moneyBr(saldo) %></h5>
+    </div>
+  </div>
+
+  <div>
+      <table class="table" id="tableInfo">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Descricao</th>
+            <th>Tipo</th>
+            <th>Valor</th>
+            <th>Opcoes</th>
+          </tr>
+        </thead>
+        <p><%= @registros %></p>
+        <tbody class="table-hover">
+        <% i = 0 %>
+          <% @movies.each do |movie| %>
+            <tr class=<%= movie.valor > 0 ? 'table-success' : movie.valor == 0 ? 'table-primary' : 'table-danger' %>>
+              <td><%= i += 1 %></td>
+              <td><%= movie.descricao %></td>
+              <td><%= movie.tipo %></td>
+              <td><%= moneyBr(movie.valor) %></td>
+              <td><%= link_to 'Show', movie %>
+                  <%= link_to 'Edit', edit_movie_path(movie) %>
+                  <%= link_to 'Destroy', movie, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+          <% end %>
+        </tbody>
+    </table>
+  </div>
+  
+
+  <%= link_to 'New Movie', new_movie_path %>
+</div>
+
+
